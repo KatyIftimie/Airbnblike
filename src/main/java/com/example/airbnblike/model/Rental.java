@@ -17,13 +17,13 @@ public class Rental {
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
     @NotNull @Lob private String description;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Room> rooms;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Amenity> amenities;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Reservation> reservations;
 
     @OneToOne(mappedBy = "rental")

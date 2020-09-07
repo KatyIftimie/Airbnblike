@@ -15,7 +15,4 @@ import java.util.List;
 public class Amenity {
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
     @NotNull @Enumerated(EnumType.STRING) private AmenityType type;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Rental> rentals;
 }

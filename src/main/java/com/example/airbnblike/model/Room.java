@@ -1,5 +1,6 @@
 package com.example.airbnblike.model;
 
+import com.example.airbnblike.enums.RoomType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 public class Room {
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
     @NotNull private String name;
-    @Enumerated(EnumType.STRING) private String RoomType;
+    @Enumerated(EnumType.STRING) private RoomType roomType;
     @NotNull private Float price;
 
     @OneToMany(fetch = FetchType.EAGER)
