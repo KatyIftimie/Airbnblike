@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class Bed {
 
     public enum Type {
-        SINGLE, DOUBLE, KING, QUEEN
+        SINGLE, DOUBLE, KING, QUEEN, TWIN
     }
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;

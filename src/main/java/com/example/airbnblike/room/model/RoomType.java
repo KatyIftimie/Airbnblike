@@ -13,9 +13,10 @@ import javax.validation.constraints.NotNull;
 public class RoomType {
 
     public enum Type {
-        SINGLE, DOUBLE
+        SINGLE, DOUBLE, TRIPLE, QUAD, SUITE
     }
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
     @NotNull @Enumerated(EnumType.STRING) private Type name;
+    private int capacity;
 }
