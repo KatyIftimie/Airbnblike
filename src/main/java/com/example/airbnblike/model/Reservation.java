@@ -1,5 +1,6 @@
 package com.example.airbnblike.model;
 
+import com.example.airbnblike.rental.model.Rental;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

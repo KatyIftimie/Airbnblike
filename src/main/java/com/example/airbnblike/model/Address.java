@@ -1,5 +1,6 @@
 package com.example.airbnblike.model;
 
+import com.example.airbnblike.rental.model.Rental;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
