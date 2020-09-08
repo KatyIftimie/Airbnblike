@@ -15,8 +15,9 @@ import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor @Setter @Getter
 @Entity @Table(name = "rooms")
+@TableGenerator(name = "gen", initialValue = 1, allocationSize = 200)
 public class Room {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "gen") private Long id;
     @NotNull private String name;
     @Lob private String description;
     @NotNull private Float price;

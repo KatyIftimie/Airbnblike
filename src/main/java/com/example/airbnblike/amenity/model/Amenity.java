@@ -10,8 +10,9 @@ import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor @NoArgsConstructor @Setter @Getter
 @Entity @Table(name = "amenities")
+@TableGenerator(name = "gen", initialValue = 1, allocationSize = 200)
 public class Amenity {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "gen") private Long id;
     @NotNull private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)

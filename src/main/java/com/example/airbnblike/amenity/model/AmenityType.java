@@ -10,12 +10,13 @@ import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor @NoArgsConstructor @Setter @Getter
 @Entity @Table(name = "amenity_types")
+@TableGenerator(name = "gen", initialValue = 1, allocationSize = 200)
 public class AmenityType {
 
     public enum Type {
         RENTAL_AMENITY, ROOM_AMENITY
     }
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "gen") private Long id;
     @NotNull @Enumerated(EnumType.STRING) private Type name;
 }

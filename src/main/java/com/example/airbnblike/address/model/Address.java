@@ -12,8 +12,9 @@ import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor @NoArgsConstructor @Setter @Getter
 @Entity @Table(name = "addresses")
+@TableGenerator(name = "gen", initialValue = 1, allocationSize = 200)
 public class Address {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "gen") private Long id;
     @NotNull private String addressLine1;
     private String addressLine2;
     @NotNull private String city;
