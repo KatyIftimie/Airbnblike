@@ -47,7 +47,7 @@ public class AuthService {
 
     private User createUserFromRequest(RegisterRequest request) {
         User user = new User();
-        UserType userType = userTypeRepository.getByName(request.getUserType());
+        UserType userType = userTypeRepository.getByName(UserType.Type.valueOf(request.getUserType()));
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserTypeRepository extends JpaRepository<UserType, Long> {
 
-    UserType getByName(String name);
+    UserType getByName(UserType.Type name);
 }
