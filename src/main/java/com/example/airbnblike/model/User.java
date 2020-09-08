@@ -1,6 +1,7 @@
 package com.example.airbnblike.model;
 
 import com.example.airbnblike.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class User {
     @NotNull @Email @Column(unique = true) private String email;
     @NotNull private String firstName;
     @NotNull private String lastName;
-    @NotNull private String password;
+    @JsonIgnore @NotNull private String password;
     private boolean isVerified = false;
     @Enumerated(EnumType.STRING) private UserType type;
 }
