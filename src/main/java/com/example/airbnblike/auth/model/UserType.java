@@ -1,4 +1,4 @@
-package com.example.airbnblike.rental.model;
+package com.example.airbnblike.auth.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,12 +8,12 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@AllArgsConstructor @NoArgsConstructor @Getter @Setter
-@Entity @Table(name = "rental_types")
-public class RentalType {
+@AllArgsConstructor @NoArgsConstructor @Setter @Getter
+@Entity @Table(name = "user_types")
+public class UserType {
 
     public enum Type {
-        HOTEL, HOSTEL, VILLA, GUEST_HOUSE, STUDIO
+        GUEST, HOST, ADMIN
     }
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;

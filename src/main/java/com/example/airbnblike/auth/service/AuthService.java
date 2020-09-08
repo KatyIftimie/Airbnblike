@@ -2,16 +2,16 @@ package com.example.airbnblike.auth.service;
 
 import com.example.airbnblike.auth.dto.LoginRequest;
 import com.example.airbnblike.auth.dto.RegisterRequest;
-import com.example.airbnblike.enums.UserType;
-import com.example.airbnblike.model.User;
-import com.example.airbnblike.repository.UserRepository;
+import com.example.airbnblike.auth.model.User;
+import com.example.airbnblike.auth.model.UserType;
+import com.example.airbnblike.auth.repository.UserRepository;
+import com.example.airbnblike.auth.repository.UserTypeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final UserTypeRepository userTypeRepository;
     private final PasswordEncoder passwordEncoder;
 
     public User getUserByEmail(String email) {
@@ -46,11 +47,12 @@ public class AuthService {
 
     private User createUserFromRequest(RegisterRequest request) {
         User user = new User();
+        UserType userType = userTypeRepository.getByName(request.getUserType());
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setType(UserType.valueOf(request.getUserType()));
+        user.setType(userType);
         return user;
     }
 
