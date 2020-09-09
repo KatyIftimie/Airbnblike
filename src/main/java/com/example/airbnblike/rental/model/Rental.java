@@ -68,4 +68,8 @@ public class Rental {
     public void addReview(Review review) {
         reviews.add(review);
     }
+
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+    }
 }

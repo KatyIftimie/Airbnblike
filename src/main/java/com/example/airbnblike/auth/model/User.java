@@ -11,6 +11,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor @Setter @Getter
@@ -34,9 +35,17 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
-    private List<Rental> rentals;
+    private List<Rental> rentals = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_id", referencedColumnName = "id")
-    private List<Reservation> reservations;
+    private List<Reservation> reservations = new ArrayList<>();
+
+    public void addRental(Rental rental) {
+        rentals.add(rental);
+    }
+
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+    }
 }

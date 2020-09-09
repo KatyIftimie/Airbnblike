@@ -55,4 +55,8 @@ public class Room {
     public void addBed(Bed bed) {
         beds.add(bed);
     }
+
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+    }
 }

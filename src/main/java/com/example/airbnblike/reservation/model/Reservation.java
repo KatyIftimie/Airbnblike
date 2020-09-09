@@ -13,6 +13,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class Reservation {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
-    private List<Room> reservedRooms;
+    private List<Room> reservedRooms = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_status_id", referencedColumnName = "id")
@@ -45,7 +46,7 @@ public class Reservation {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User guestUser;
 
-    public void reserveRoom(Room room){
+    public void addRoom(Room room){
         reservedRooms.add(room);
     }
 }

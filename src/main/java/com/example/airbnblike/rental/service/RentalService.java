@@ -81,8 +81,10 @@ public class RentalService {
             room.setRental(savedRental);
         });
 
-        address.setRental(newRental);
+        address.setRental(savedRental);
         addressService.save(address);
+
+        authService.getUserByID(rentalDto.getHostUserID()).addRental(savedRental);
 
         rentalRepository.save(savedRental);
     }

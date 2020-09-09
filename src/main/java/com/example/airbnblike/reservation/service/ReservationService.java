@@ -23,23 +23,26 @@ public class ReservationService {
 
     public  void addReservation(ReservationDto reservationDto){
         Reservation newReservation= new Reservation();
-        newReservation.setCheckInDate(reservationDto.getCheckInTime());
-        newReservation.setCheckOutDate(reservationDto.getCheckOutTime());
+        newReservation.setCheckInDate(reservationDto.getCheckInDate());
+        newReservation.setCheckOutDate(reservationDto.getCheckOutDate());
         newReservation.setMessageToHost(reservationDto.getMessageToHost());
         newReservation.setTotalAmount(reservationDto.getTotalAmount());
         newReservation.setRental(rentalService.getRentalByID(reservationDto.getRentalID()));
         newReservation.setStatus(reservationStatusRepository.getOne(reservationDto.getReservationStatusID()));
         newReservation.setGuestUser(authService.getUserByID(reservationDto.getGuestUserID()));
 
-        reservationDto.getReservedRoomsID().forEach(ID ->{
-            Room room=roomService.getRoomByID(ID);
-            newReservation.reserveRoom(room);
+        reservationDto.getReservedRoomsIDs().forEach(ID -> {
+            Room room = roomService.getRoomByID(ID);
+            newReservation.addRoom(room);
         });
 
-
-        Reservation savedReservation=reservationRepository.save(newReservation);
+        Reservation savedReservation = reservationRepository.save(newReservation);
         reservationRepository.flush();
-        reservationRepository.save(savedReservation);
 
+        savedReservation.getReservedRooms().forEach(room -> room.addReservation(savedReservation));
+        rentalService.getRentalByID(reservationDto.getRentalID()).addReservation(savedReservation);
+        authService.getUserByID(reservationDto.getGuestUserID()).addReservation(savedReservation);
+
+        reservationRepository.save(savedReservation);
     }
 }

@@ -8,6 +8,8 @@ import com.example.airbnblike.auth.repository.UserTypeRepository;
 import com.example.airbnblike.bed.repository.BedRepository;
 import com.example.airbnblike.amenity.model.Amenity;
 import com.example.airbnblike.bed.model.Bed;
+import com.example.airbnblike.reservation.model.ReservationStatus;
+import com.example.airbnblike.reservation.repository.ReservationStatusRepository;
 import com.example.airbnblike.room.model.Room;
 import com.example.airbnblike.rental.model.RentalType;
 import com.example.airbnblike.rental.repository.*;
@@ -28,8 +30,9 @@ public class DataInsertion {
     private final AmenityTypeRepository amenityTypeRepository;
     private final AmenityRepository amenityRepository;
     private final RoomTypeRepository roomTypeRepository;
+    private final ReservationStatusRepository reservationStatusRepository;
 
-    public void addData(){
+    public void addData1(){
         // Default user types
         UserType ut1 = new UserType();
         ut1.setName(UserType.Type.ADMIN);
@@ -156,5 +159,23 @@ public class DataInsertion {
         RoomType rt5 = new RoomType();
         rt5.setName(RoomType.Type.SUITE);
         roomTypeRepository.save(rt5);
+    }
+
+    public void addData2() {
+        ReservationStatus rs1 = new ReservationStatus();
+        rs1.setName(ReservationStatus.Status.BOOKED);
+        reservationStatusRepository.save(rs1);
+
+        ReservationStatus rs2 = new ReservationStatus();
+        rs2.setName(ReservationStatus.Status.CANCELED);
+        reservationStatusRepository.save(rs2);
+
+        ReservationStatus rs3 = new ReservationStatus();
+        rs3.setName(ReservationStatus.Status.COMPLETED);
+        reservationStatusRepository.save(rs3);
+
+        ReservationStatus rs4 = new ReservationStatus();
+        rs4.setName(ReservationStatus.Status.RESCHEDULED);
+        reservationStatusRepository.save(rs4);
     }
 }

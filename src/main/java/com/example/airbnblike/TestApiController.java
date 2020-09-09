@@ -1,7 +1,6 @@
 package com.example.airbnblike;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +13,7 @@ public class TestApiController {
     private final DataInsertion dataInsertion;
 
     @GetMapping("/add-data")
-    public void add_data(){
-        dataInsertion.addData();
+    public void addData(){
+        dataInsertion.addData2();
     }
 }

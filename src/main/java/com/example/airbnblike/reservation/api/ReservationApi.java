@@ -20,11 +20,6 @@ public class ReservationApi {
 
     @PostMapping()
     public ResponseEntity<String> addReservation(@RequestBody ReservationDto reservationDto) {
-//        try {
-//            testImageService.saveImage(rentalDto.getImage());
-//        } catch (IOException e) {
-//            return new ResponseEntity<>("IMAGE NOT SAVED", HttpStatus.BAD_REQUEST);
-//        }
         reservationService.addReservation(reservationDto);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
