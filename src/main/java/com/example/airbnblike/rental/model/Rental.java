@@ -16,30 +16,33 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter
 @Entity @Table(name = "rentals")
-@TableGenerator(name = "gen", initialValue = 1, allocationSize = 200)
 public class Rental {
 
-    @Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "gen") private Long id;
+    @Id
+    @GeneratedValue(generator = "rentalGen")
+    @TableGenerator(name = "rentalGen")
+    private Long id;
     @NotNull private String name;
     @NotNull @Lob @Type(type = "org.hibernate.type.TextType") private String description;
     @NotNull private Instant checkInTime;
     @NotNull private Instant checkOutTime;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Amenity> amenities;
+    private List<Amenity> amenities = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Reservation> reservations;
+    private List<Reservation> reservations = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToOne(mappedBy = "rental")
     @JsonManagedReference
@@ -52,4 +55,16 @@ public class Rental {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User hostUser;
+
+    public void addRoom(Room room) {
+        rooms.add(room);
+    }
+
+    public void addAmenity(Amenity amenity) {
+        amenities.add(amenity);
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+    }
 }

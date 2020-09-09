@@ -18,4 +18,8 @@ public class AmenityService {
     public List<Amenity> getAllAmenities() {
         return amenityRepository.findAll();
     }
+
+    public Amenity getAmenityByID(Long ID) {
+        return amenityRepository.getOne(ID);
+    }
 }

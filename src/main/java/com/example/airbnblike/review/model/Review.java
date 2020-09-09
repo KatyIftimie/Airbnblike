@@ -16,10 +16,12 @@ import java.time.Instant;
 
 @AllArgsConstructor @NoArgsConstructor @Setter @Getter
 @Entity @Table(name = "reviews")
-@TableGenerator(name = "gen", initialValue = 1, allocationSize = 200)
 public class Review {
 
-    @Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "gen") private Long id;
+    @Id
+    @GeneratedValue(generator = "reviewGen")
+    @TableGenerator(name = "reviewGen")
+    private Long id;
     @Lob @Type(type = "org.hibernate.type.TextType") private String message;
     @NotNull private Instant posted = Instant.now();
     @NotNull private int value;

@@ -27,6 +27,10 @@ public class AuthService {
         return userRepository.getByEmail(email);
     }
 
+    public User getUserByID(Long ID) {
+        return userRepository.getOne(ID);
+    }
+
     public ResponseEntity<String> register(RegisterRequest request){
         ResponseEntity<String> validation = validateRegister(request);
         if (validation.getStatusCode().equals(HttpStatus.OK)) {

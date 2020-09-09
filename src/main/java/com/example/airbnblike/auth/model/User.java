@@ -15,10 +15,12 @@ import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor @Setter @Getter
 @Entity @Table(name = "users")
-@TableGenerator(name = "gen", initialValue = 1, allocationSize = 200)
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "gen") private Long id;
+    @Id
+    @GeneratedValue(generator = "userGen")
+    @TableGenerator(name = "userGen")
+    private Long id;
     @NotNull @Email @Column(unique = true) private String email;
     @NotNull private String phoneNumber;
     @NotNull private String firstName;
