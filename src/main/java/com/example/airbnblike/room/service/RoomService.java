@@ -27,6 +27,9 @@ public class RoomService {
     public RoomType getRoomTypeByID(Long ID) {
         return roomTypeRepository.getOne(ID);
     }
+    public  Room getRoomByID(Long ID){
+        return roomRepository.getOne(ID);
+    }
 
     public Room createModelFromDto(Room newRoom, RoomDto roomDto) {
         newRoom.setName(roomDto.getName());

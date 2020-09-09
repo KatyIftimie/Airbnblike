@@ -1,7 +1,13 @@
 package com.example.airbnblike.reservation.api;
 
+import com.example.airbnblike.rental.dto.RentalDto;
+import com.example.airbnblike.reservation.dto.ReservationDto;
 import com.example.airbnblike.reservation.service.ReservationService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,4 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReservationApi {
 
     private final ReservationService reservationService;
+
+    @PostMapping()
+    public ResponseEntity<String> addReservation(@RequestBody ReservationDto reservationDto) {
+//        try {
+//            testImageService.saveImage(rentalDto.getImage());
+//        } catch (IOException e) {
+//            return new ResponseEntity<>("IMAGE NOT SAVED", HttpStatus.BAD_REQUEST);
+//        }
+        reservationService.addReservation(reservationDto);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
 }
