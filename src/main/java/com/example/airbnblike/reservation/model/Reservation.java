@@ -40,8 +40,6 @@ public class Reservation {
     @JoinColumn(name = "reservation_status_id", referencedColumnName = "id")
     private ReservationStatus status;
 
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User guestUser;

@@ -36,6 +36,11 @@ public class RentalService {
     }
 
     @Transactional
+    public Rental getRentalByID(Long ID) {
+        return rentalRepository.getOne(ID);
+    }
+
+    @Transactional
     public List<RentalType> getAllRentalTypes() {
         return rentalTypeRepository.findAll();
     }

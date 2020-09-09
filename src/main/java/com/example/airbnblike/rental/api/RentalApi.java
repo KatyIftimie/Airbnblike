@@ -25,9 +25,14 @@ public class RentalApi {
     private final TestImageService testImageService;
 
     @Transactional
-    @GetMapping("/{country}")
+    @GetMapping("/country/{country}")
     public List<Rental> getRentalsByCountry(@PathVariable("country") String country) {
         return rentalService.getRentalsByCountry(country);
+    }
+
+    @GetMapping("/{rentalID}")
+    public Rental getRentalByID(@PathVariable("rentalID") String rentalID) {
+        return rentalService.getRentalByID(Long.valueOf(rentalID));
     }
 
     @Transactional
