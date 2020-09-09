@@ -5,6 +5,9 @@ import com.example.airbnblike.bed.repository.BedRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class BedService {
@@ -13,5 +16,9 @@ public class BedService {
 
     public Bed getBedByID(Long ID) {
         return bedRepository.getOne(ID);
+    }
+    @Transactional
+    public List<Bed> getAllBeds(){
+        return bedRepository.findAll();
     }
 }

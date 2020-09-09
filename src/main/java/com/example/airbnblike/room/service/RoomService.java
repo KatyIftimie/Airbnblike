@@ -1,5 +1,6 @@
 package com.example.airbnblike.room.service;
 
+import com.example.airbnblike.room.model.RoomType;
 import com.example.airbnblike.amenity.model.Amenity;
 import com.example.airbnblike.amenity.service.AmenityService;
 import com.example.airbnblike.bed.model.Bed;
@@ -11,6 +12,9 @@ import com.example.airbnblike.room.repository.RoomRepository;
 import com.example.airbnblike.room.repository.RoomTypeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service @AllArgsConstructor
 public class RoomService {
@@ -45,5 +49,10 @@ public class RoomService {
 
     public void save(Room room) {
         roomRepository.save(room);
+    }
+
+    @Transactional
+    public List<RoomType> getAllRoomTypes(){
+        return  roomTypeRepository.findAll();
     }
 }
