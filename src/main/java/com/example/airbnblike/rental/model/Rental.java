@@ -33,6 +33,7 @@ public class Rental {
     @NotNull private Instant checkOutTime;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Room> rooms = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)

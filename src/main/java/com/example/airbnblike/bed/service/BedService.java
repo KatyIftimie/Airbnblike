@@ -17,6 +17,7 @@ public class BedService {
     public Bed getBedByID(Long ID) {
         return bedRepository.getOne(ID);
     }
+
     @Transactional
     public List<Bed> getAllBeds(){
         return bedRepository.findAll();

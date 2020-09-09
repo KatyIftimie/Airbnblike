@@ -4,6 +4,7 @@ import com.example.airbnblike.amenity.model.Amenity;
 import com.example.airbnblike.bed.model.Bed;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.reservation.model.Reservation;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,7 @@ public class Room {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
+    @JsonBackReference
     private Rental rental;
 
     @ManyToMany(fetch = FetchType.LAZY)
