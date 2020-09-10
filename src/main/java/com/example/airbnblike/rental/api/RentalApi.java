@@ -1,6 +1,7 @@
 package com.example.airbnblike.rental.api;
 
 import com.example.airbnblike.TestImageService;
+import com.example.airbnblike.aws.service.AWSS3Service;
 import com.example.airbnblike.rental.dto.RentalDto;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.rental.model.RentalType;
@@ -22,7 +23,7 @@ import java.util.List;
 public class RentalApi {
 
     private final RentalService rentalService;
-    private final TestImageService testImageService;
+    private final AWSS3Service awss3Service;
 
     @Transactional
     @GetMapping("/country/{country}")
@@ -42,13 +43,9 @@ public class RentalApi {
     }
 
     @PostMapping()
-    public ResponseEntity<String> addRental(@RequestBody RentalDto rentalDto) {
-//        try {
-//            testImageService.saveImage(rentalDto.getImage());
-//        } catch (IOException e) {
-//            return new ResponseEntity<>("IMAGE NOT SAVED", HttpStatus.BAD_REQUEST);
-//        }
-        rentalService.addRental(rentalDto);
+    public ResponseEntity<String> addRental(@ModelAttribute RentalDto rentalDto) {
+        awss3Service.uploadFile(rentalDto.getImage());
+//        rentalService.addRental(rentalDto);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 }
