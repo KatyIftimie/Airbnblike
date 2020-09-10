@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,14 +30,12 @@ public class AWSS3ServiceImpl implements AWSS3Service {
     private String bucketName;
 
     @Override
-    // @Async annotation ensures that the method is executed in a different background thread
-    // but not consume the main thread.
     @Async
-    public void uploadFile(final MultipartFile multipartFile) {
+    public void uploadFile(final MultipartFile multipartFile, String fileName) {
         LOGGER.info("File upload in progress.");
         try {
             final File file = convertMultiPartFileToFile(multipartFile);
-            uploadFileToS3Bucket(bucketName, file);
+            uploadFileToS3Bucket(bucketName, file, fileName);
             LOGGER.info("File upload is completed.");
             file.delete();	// To remove the file locally created in the project folder.
         } catch (final AmazonServiceException ex) {
@@ -46,7 +45,7 @@ public class AWSS3ServiceImpl implements AWSS3Service {
     }
 
     private File convertMultiPartFileToFile(final MultipartFile multipartFile) {
-        final File file = new File(multipartFile.getOriginalFilename());
+        final File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         try (final FileOutputStream outputStream = new FileOutputStream(file)) {
             outputStream.write(multipartFile.getBytes());
         } catch (final IOException ex) {
@@ -55,10 +54,9 @@ public class AWSS3ServiceImpl implements AWSS3Service {
         return file;
     }
 
-    private void uploadFileToS3Bucket(final String bucketName, final File file) {
-        final String uniqueFileName = LocalDateTime.now() + "_" + file.getName();
-        LOGGER.info("Uploading file with name= " + uniqueFileName);
-        final PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, uniqueFileName, file);
+    private void uploadFileToS3Bucket(final String bucketName, final File file, final String fileName) {
+        LOGGER.info("Uploading file with name= " + fileName);
+        final PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, file);
         amazonS3.putObject(putObjectRequest);
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class RentalDto {
 
-    private MultipartFile image;
+    private List<MultipartFile> images;
     private String name;
     private String description;
     private Instant checkInTime;

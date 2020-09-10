@@ -5,6 +5,8 @@ import com.example.airbnblike.address.service.AddressService;
 import com.example.airbnblike.amenity.model.Amenity;
 import com.example.airbnblike.amenity.service.AmenityService;
 import com.example.airbnblike.auth.service.AuthService;
+import com.example.airbnblike.image.model.Image;
+import com.example.airbnblike.image.service.ImageService;
 import com.example.airbnblike.rental.dto.RentalDto;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.rental.model.RentalType;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +32,7 @@ public class RentalService {
     private final AmenityService amenityService;
     private final AddressService addressService;
     private final AuthService authService;
+    private final ImageService imageService;
 
     @Transactional
     public List<Rental> getRentalsByCountry(String country) {
@@ -49,7 +53,7 @@ public class RentalService {
         return rentalTypeRepository.getOne(ID);
     }
 
-    public void addRental(RentalDto rentalDto) {
+    public Rental addRental(RentalDto rentalDto) {
         Rental newRental = new Rental();
         newRental.setName(rentalDto.getName());
         newRental.setDescription(rentalDto.getDescription());
@@ -67,6 +71,13 @@ public class RentalService {
             newRental.addAmenity(amenity);
         });
 
+        rentalDto.getImages().forEach(file -> {
+            Image image = new Image();
+            image.setFileName(generateUniqueImageFileName());
+            image.setOriginalFileName(file.getOriginalFilename());
+            newRental.addImage(image);
+        });
+
         Address address = addressService.createModelFromDto(new Address(), rentalDto.getAddressDto());
         addressService.save(address);
         newRental.setAddress(address);
@@ -81,11 +92,27 @@ public class RentalService {
             room.setRental(savedRental);
         });
 
+        savedRental.getImages().forEach(image -> {
+            image.setRental(savedRental);
+        });
+
         address.setRental(savedRental);
         addressService.save(address);
 
         authService.getUserByID(rentalDto.getHostUserID()).addRental(savedRental);
 
-        rentalRepository.save(savedRental);
+        Rental newSavedRental = rentalRepository.save(savedRental);
+        rentalRepository.flush();
+        return newSavedRental;
+    }
+
+    private String generateUniqueImageFileName() {
+        String fileName;
+        Image image;
+        do {
+            fileName = UUID.randomUUID().toString();
+            image = imageService.getImageByFileName(fileName);
+        } while (image != null);
+        return fileName;
     }
 }

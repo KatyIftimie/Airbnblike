@@ -12,5 +12,15 @@
 
 <h1>TEST</h1>
 
+<form method="post" action="/api/v1/rentals" enctype="multipart/form-data">
+    <input type="file" accept="image/jpeg" multiple name="images">
+    <input type="text" name="name" placeholder="Name">
+    <textarea placeholder="Description" name="description"></textarea>
+    <input type="time" name="checkInTime" placeholder="Check-in Time">
+    <input type="time" name="checkOutTime" placeholder="Check-out Time">
+
+    <input type="submit" value="Add Rental">
+</form>
+
 </body>
 </html>
