@@ -2,9 +2,9 @@ package com.example.airbnblike.auth.api;
 
 import com.example.airbnblike.auth.dto.LoginRequest;
 import com.example.airbnblike.auth.dto.RegisterRequest;
+import com.example.airbnblike.auth.model.User;
 import com.example.airbnblike.auth.service.AuthService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +39,10 @@ public class AuthApi {
     public void logoutUser(HttpSession session, HttpServletResponse response) throws IOException {
         session.removeAttribute("user");
         response.sendRedirect("/");
+    }
+
+    @GetMapping("/get-user/{email}")
+    public User returnUser(@PathVariable String email ) {
+        return authService.getUserByEmail(email);
     }
 }
