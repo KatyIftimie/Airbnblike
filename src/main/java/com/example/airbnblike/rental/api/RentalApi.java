@@ -43,7 +43,7 @@ public class RentalApi {
         return rentalService.getAllRentalTypes();
     }
 
-    @PostMapping()
+    @PostMapping("/add-rental")
     public ResponseEntity<String> addRental(@ModelAttribute RentalDto rentalDto) {
         System.out.println(rentalDto);
 //        Rental newRental = rentalService.addRental(rentalDto);

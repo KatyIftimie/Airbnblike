@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -26,12 +28,14 @@ public class AuthApi {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginRequest request, HttpSession session) {
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest request, HttpSession session) {
         return authService.login(request, session);
     }
 
     @GetMapping("/is-logged-in")
     public boolean isLoggedIn(HttpSession session) {
+        System.out.println(session.getAttribute("user"));
+        System.out.println(session.getCreationTime() + " this is id: " + session.getId());
         return session.getAttribute("user") != null;
     }
 
