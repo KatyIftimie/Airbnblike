@@ -4,10 +4,13 @@ import com.example.airbnblike.address.model.Address;
 import com.example.airbnblike.amenity.model.Amenity;
 import com.example.airbnblike.auth.model.User;
 import com.example.airbnblike.image.model.Image;
+import com.example.airbnblike.rental.service.CustomDeserializer;
 import com.example.airbnblike.reservation.model.Reservation;
 import com.example.airbnblike.review.model.Review;
 import com.example.airbnblike.room.model.Room;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,8 +33,8 @@ public class Rental {
     private Long id;
     @NotNull private String name;
     @NotNull @Lob @Type(type = "org.hibernate.type.TextType") private String description;
-    @NotNull private Instant checkInTime;
-    @NotNull private Instant checkOutTime;
+    @JsonDeserialize(using = CustomDeserializer.class) @NotNull private Instant checkInTime;
+    @JsonDeserialize(using = CustomDeserializer.class) @NotNull private Instant checkOutTime;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JsonManagedReference
