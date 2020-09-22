@@ -31,6 +31,7 @@ public class DataInsertion {
     private final AmenityRepository amenityRepository;
     private final RoomTypeRepository roomTypeRepository;
     private final ReservationStatusRepository reservationStatusRepository;
+    private final RentalTypeRepository rentalTypeRepository;
 
     public void addData1(){
         // Default user types
@@ -177,5 +178,27 @@ public class DataInsertion {
         ReservationStatus rs4 = new ReservationStatus();
         rs4.setName(ReservationStatus.Status.RESCHEDULED);
         reservationStatusRepository.save(rs4);
+    }
+
+    public void addData3() {
+        RentalType rt1 = new RentalType();
+        rt1.setName(RentalType.Type.GUEST_HOUSE);
+        rentalTypeRepository.save(rt1);
+
+        RentalType rt2 = new RentalType();
+        rt2.setName(RentalType.Type.HOSTEL);
+        rentalTypeRepository.save(rt2);
+
+        RentalType rt3 = new RentalType();
+        rt3.setName(RentalType.Type.HOTEL);
+        rentalTypeRepository.save(rt3);
+
+        RentalType rt4 = new RentalType();
+        rt4.setName(RentalType.Type.VILLA);
+        rentalTypeRepository.save(rt4);
+
+        RentalType rt5 = new RentalType();
+        rt5.setName(RentalType.Type.STUDIO);
+        rentalTypeRepository.save(rt5);
     }
 }

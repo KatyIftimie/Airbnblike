@@ -16,6 +16,7 @@ public class Image {
     @Id @GeneratedValue(generator = "imageGen") @TableGenerator(name = "imageGen") private Long id;
     @NotNull private String fileName;
     @NotNull private String originalFileName;
+    @NotNull private boolean isMainRentalImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id", referencedColumnName = "id")

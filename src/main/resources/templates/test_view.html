@@ -10,17 +10,417 @@
 </head>
 <body>
 
-<h1>TEST</h1>
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        justify-content: flex-start;
+        align-content: flex-start;
+        align-items: flex-start;
+    }
 
-<form method="post" action="/api/v1/rentals" enctype="multipart/form-data">
-    <input type="file" accept="image/jpeg" multiple name="images">
-    <input type="text" name="name" placeholder="Name">
-    <textarea placeholder="Description" name="description"></textarea>
-    <input type="time" name="checkInTime" placeholder="Check-in Time">
-    <input type="time" name="checkOutTime" placeholder="Check-out Time">
+    .label-input-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        align-content: flex-start;
+        width: 100%;
+        margin-bottom: 15px;
+    }
 
-    <input type="submit" value="Add Rental">
+    .label-input-box label {
+        margin-bottom: 5px;
+    }
+
+    #check-in-out {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-content: flex-start;
+        align-items: flex-start;
+        width: 30%;
+    }
+
+    .amenities-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        align-content: flex-start;
+        width: 100%;
+    }
+
+    .input-label-box {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-content: center;
+        align-items: center;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        width: 100%;
+    }
+
+    .add-room-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        align-content: flex-start;
+        width: auto;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        border: 1px solid black;
+        padding: 10px;
+    }
+</style>
+
+<h1>ADD RENTAL (TEST)</h1>
+
+<form id="form" method="post" action="/api/v1/rentals" enctype="multipart/form-data">
+
+    <h2>Information</h2>
+    <div class="label-input-box">
+        <label for="rental-type">Rental Type</label>
+        <select id="rental-type" name="rentalTypeID"></select>
+    </div>
+
+    <div class="label-input-box">
+        <label for="rental-name">Name</label>
+        <input type="text" id="rental-name">
+    </div>
+
+    <div class="label-input-box">
+        <label for="rental-description">Description</label>
+        <textarea id="rental-description" cols="100" rows="10"></textarea>
+    </div>
+
+    <div id="check-in-out">
+        <div class="label-input-box">
+            <label for="checkInTime">Check In Time</label>
+            <input type="time" name="checkInTime" id="checkInTime">
+        </div>
+        <div class="label-input-box">
+            <label for="checkOutTime">Check Out Time</label>
+            <input type="time" id="checkOutTime" name="checkOutTime">
+        </div>
+    </div>
+
+    <h2>Location</h2>
+    <div class="label-input-box">
+        <label for="address-line-1">Address Line 1</label>
+        <input type="text" id="address-line-1">
+    </div>
+    <div class="label-input-box">
+        <label for="address-line-2">Address Line 2</label>
+        <input type="text" id="address-line-2">
+    </div>
+    <div class="label-input-box">
+        <label for="city">City</label>
+        <input type="text" id="city">
+    </div>
+    <div class="label-input-box">
+        <label for="state">State</label>
+        <input type="text" id="state">
+    </div>
+    <div class="label-input-box">
+        <label for="zip-code">Zip Code</label>
+        <input type="text" id="zip-code">
+    </div>
+    <div class="label-input-box">
+        <label for="country">Country</label>
+        <input type="text" id="country">
+    </div>
+
+    <hr>
+
+    <h2>Amenities</h2>
+    <div id="rental-amenities" class="amenities-container"></div>
+
+    <hr>
+
+    <h2>Rooms</h2>
+    <div class="label-input-box">
+        <label for="number-of-rooms">Select number of rooms</label>
+        <input type="number" min="1" id="number-of-rooms">
+    </div>
+
+    <div id="add-rooms-container" class="grid"></div>
+
+    <hr>
+
+    <h2>Images</h2>
+    <div class="label-input-box">
+        <label for="images">Select Images</label>
+        <input type="file" accept="image/jpeg" multiple id="images">
+    </div>
+
+    <input type="submit" value="Add Rental" id="submit">
 </form>
+
+<script>
+    const API_URL = "http://localhost:8080/api/v1";
+
+    // DOM Elements
+    const rentalTypeSelect = document.getElementById("rental-type");
+    const addRoomsContainer = document.getElementById("add-rooms-container");
+
+    // Data
+    let roomTypes;
+    let amenities;
+    let bedTypes;
+
+    window.addEventListener("DOMContentLoaded", function() {
+        getRentalTypes().then(types => {
+            getRoomTypes().then(() => getAmenities().then(() => getBedTypes().then(() => loadRentalTypes(types))));
+        });
+    });
+
+    // Rental Types
+    async function getRentalTypes() {
+        const URL = API_URL + "/rentals/rental-types";
+        const serverResponse = await fetch(URL);
+        return await serverResponse.json();
+    }
+
+    function loadRentalTypes(types) {
+        Array.from(types).forEach(type => {
+            const option = document.createElement("option");
+            option.value = type["id"];
+            option.textContent = type["name"];
+            rentalTypeSelect.appendChild(option);
+        });
+    }
+
+    // Room types
+    async function getRoomTypes() {
+        const URL = API_URL + "/rooms/room-types";
+        const serverResponse = await fetch(URL);
+        roomTypes = await serverResponse.json();
+    }
+
+    // Amenities
+    async function getAmenities() {
+        const URL = API_URL + "/amenities";
+        const serverResponse = await fetch(URL);
+        amenities = await serverResponse.json();
+
+        // Load rental amenities
+        document.getElementById("rental-amenities").innerHTML = createAmenitiesOptions("RENTAL_AMENITY");
+    }
+
+    function createAmenitiesOptions(type) {
+        const amenities = getAmenitiesByType(type);
+        let innerHTML = ``;
+        Array.from(amenities).forEach(amenity => {
+            innerHTML += `
+                <div class="input-label-box">
+                <input type="checkbox" value="${amenity['id']}" id="amenity-${amenity['id']}">
+                <label for="amenity-${amenity['id']}">${amenity['name']}</label>
+                </div>
+        `;
+        });
+        return innerHTML;
+    }
+
+    function getAmenitiesByType(type) {
+        return Array.from(amenities).filter(amenity => amenity['amenityType']['name'] === type);
+    }
+
+    // Rooms
+    const numberOfRoomsInput = document.getElementById("number-of-rooms");
+    numberOfRoomsInput.addEventListener("change", function() {
+        const numberOfRooms = numberOfRoomsInput.value;
+        showAddRoomsContainer(numberOfRooms);
+    });
+
+    function showAddRoomsContainer(numberOfRooms) {
+        addRoomsContainer.innerHTML = "";
+        for (let i = 0; i < numberOfRooms; i++) {
+            const addRoomBox = createAddRoomBox(i);
+            addRoomsContainer.appendChild(addRoomBox);
+        }
+        handleAddBeds();
+    }
+
+    function createAddRoomBox(index) {
+        const addRoomBox = document.createElement("div");
+        addRoomBox.className = "add-room-box";
+
+        const roomTypeSelect = createRoomTypeSelect();
+        const roomAmenitiesContainer = createAmenitiesOptions("ROOM_AMENITY");
+
+        addRoomBox.innerHTML = `
+            ${roomTypeSelect}
+            <input type="text" placeholder="Room name">
+            <textarea placeholder="Room description"></textarea>
+            <input type="text" placeholder="Room price/night">
+            <div class="amenities-container">${roomAmenitiesContainer}</div>
+            <div class="label-input-box">
+                <label for="room-box-${index}">Select number of beds</label>
+                <input class="number-of-beds-inp" type="number" min="1" id="room-box-${index}">
+            </div>
+            <div class="grid beds" id="beds-container-room-${index}"></div>
+        `;
+        return addRoomBox;
+    }
+
+    function createRoomTypeSelect() {
+        let selectInnerHTML = ``;
+        Array.from(roomTypes).forEach(type => {
+            selectInnerHTML += `
+                <option value="${type['id']}">${type['name']}</option>
+            `;
+        });
+        return `<select>${selectInnerHTML}</select>`
+    }
+
+    // Beds
+    async function getBedTypes() {
+        const URL = API_URL + "/beds";
+        const serverResponse = await fetch(URL);
+        bedTypes = await serverResponse.json();
+    }
+
+    function handleAddBeds() {
+        const inputs = document.getElementsByClassName("number-of-beds-inp");
+        Array.from(inputs).forEach(inp => {
+            inp.addEventListener("change", function() {
+                const roomIndex = inp.id.split("-")[2];
+                const numberOfBeds = inp.value;
+                const bedsContainer = document.getElementById(`beds-container-room-${roomIndex}`);
+                showAddBedsContainer(numberOfBeds, bedsContainer);
+            });
+        });
+    }
+
+    function showAddBedsContainer(numberOfBeds, container) {
+        container.innerHTML = "";
+        for (let i = 0; i < numberOfBeds; i++) {
+            const bedBox = createBedBox(i);
+            container.appendChild(bedBox);
+        }
+    }
+
+    function createBedBox(bedIndex) {
+        const bedBox = document.createElement("div");
+        bedBox.className = "bed-box";
+        const bedTypeSelect = createBedTypeSelect();
+        bedBox.innerHTML = `${bedTypeSelect}`;
+        return bedBox;
+    }
+
+    function createBedTypeSelect() {
+        let innerHTML = ``;
+        Array.from(bedTypes).forEach(type => {
+            innerHTML += `<option value="${type['id']}">${type['type']}</option>`;
+        });
+        return `<select>${innerHTML}</select>`;
+    }
+
+    // Handle Form Submission
+    const form = document.getElementById("form");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const URL = API_URL + "/rentals";
+        const formData = collectFormData();
+        console.log(formData)
+        fetch(URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        });
+    });
+
+    function collectFormData() {
+        const data = new FormData();
+
+        const rentalTypeID = document.getElementById("rental-type").value;
+        const name = document.getElementById("rental-name").value;
+        const description = document.getElementById("rental-description").value;
+        const hostUserID = 2;
+        const checkInTime = document.getElementById("checkInTime").value;
+        const checkOutTime = document.getElementById("checkOutTime").value;
+
+        const address = {
+            "addressLine1": document.getElementById("address-line-1").value,
+            "addressLine2": document.getElementById("address-line-2").value,
+            "city": document.getElementById("city").value,
+            "state": document.getElementById("state").value,
+            "zipCode": document.getElementById("zip-code").value,
+            "country": document.getElementById("country").value
+        };
+
+        let rentalAmenitiesIDs = [];
+        Array.from(document.getElementById("rental-amenities").getElementsByTagName("input")).forEach(inp => {
+            if (inp.checked) {
+                rentalAmenitiesIDs.push(inp.value);
+            }
+        });
+
+        let rooms = [];
+        Array.from(document.getElementsByClassName("add-room-box")).forEach(roomBox => {
+            const roomTypeID = roomBox.children[0].value;
+            const roomName = roomBox.children[1].value;
+            const roomDescription = roomBox.children[2].value;
+            const price = roomBox.children[3].value;
+            let roomAmenitiesIDs = [];
+            Array.from(roomBox.children[4].getElementsByTagName("input")).forEach(inp => {
+                if (inp.checked) {
+                    roomAmenitiesIDs.push(inp.value);
+                }
+            });
+            let bedsIDs = [];
+            Array.from(roomBox.children[6].getElementsByTagName("select")).forEach(select => {
+                bedsIDs.push(select.value);
+            });
+
+            rooms.push({
+                "name": roomName,
+                "description": roomDescription,
+                "price": price,
+                "amenitiesIDs": roomAmenitiesIDs,
+                "bedsIDs": bedsIDs,
+                "roomTypeID": roomTypeID
+            });
+        });
+
+        const images = document.getElementById("images").files;
+
+        data.append("images", images);
+        data.append("name", name);
+        data.append("description", description);
+        data.append("checkInTime", checkInTime);
+        data.append("checkOutTime", checkOutTime);
+        data.append("roomsDtoList", rooms);
+        data.append("amenitiesIDs", rentalAmenitiesIDs);
+        data.append("addressDto", address);
+        data.append("rentalTypeID", rentalTypeID);
+        data.append("hostUserID", hostUserID);
+
+        return data;
+        // return {
+        //     "name": name,
+        //     "description": description,
+        //     "checkInTime": checkInTime,
+        //     "checkOutTime": checkOutTime,
+        //     "roomsDtoList": rooms,
+        //     "amenitiesIDs": rentalAmenitiesIDs,
+        //     "addressDto": address,
+        //     "rentalTypeID": rentalTypeID,
+        //     "hostUserID": hostUserID
+        // }
+    }
+
+
+</script>
 
 </body>
 </html>

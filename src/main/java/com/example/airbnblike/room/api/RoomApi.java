@@ -19,7 +19,7 @@ public class RoomApi {
     private final RoomService roomService;
 
     @Transactional
-    @GetMapping
+    @GetMapping("/room-types")
     public List<RoomType> getAllRoomTypes(){
         return roomService.getAllRoomTypes();
     }

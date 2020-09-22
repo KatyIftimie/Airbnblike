@@ -7,8 +7,10 @@ import com.example.airbnblike.rental.dto.RentalDto;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.rental.model.RentalType;
 import com.example.airbnblike.rental.service.RentalService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -43,8 +45,8 @@ public class RentalApi {
         return rentalService.getAllRentalTypes();
     }
 
-    @PostMapping()
-    public ResponseEntity<String> addRental(@ModelAttribute RentalDto rentalDto) {
+    @PostMapping
+    public ResponseEntity<String> addRental(@RequestBody RentalDto rentalDto) {
         System.out.println(rentalDto);
 //        Rental newRental = rentalService.addRental(rentalDto);
 //        imageService.uploadRentalImages(newRental.getImages(), rentalDto.getImages());
