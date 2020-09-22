@@ -6,6 +6,7 @@ import com.example.airbnblike.image.service.ImageService;
 import com.example.airbnblike.rental.dto.RentalDto;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.rental.model.RentalType;
+import com.example.airbnblike.rental.repository.RentalRepository;
 import com.example.airbnblike.rental.service.RentalService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -23,11 +24,12 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @AllArgsConstructor
-@RequestMapping(name ="/api/v1/rentals", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value ="/api/v1/rentals", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 public class RentalApi {
 
     private final RentalService rentalService;
     private final ImageService imageService;
+    private final RentalRepository rentalRepository;
 
     @Transactional
     @GetMapping("/country/{country}")
@@ -48,8 +50,10 @@ public class RentalApi {
 
     @PostMapping()
     public ResponseEntity<String> addRental(@RequestBody RentalDto rentalDto) {
-        System.out.println(rentalDto);
+        System.out.println("this is it:" + rentalDto);
         Rental newRental = rentalService.addRental(rentalDto);
+        rentalRepository.save(newRental);
+
 //        imageService.uploadRentalImages(newRental.getImages(), rentalDto.getImages());
         return new ResponseEntity<>("", HttpStatus.OK);
     }
