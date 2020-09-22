@@ -1,26 +1,32 @@
 package com.example.airbnblike.rental.service;
 
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import lombok.SneakyThrows;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+
 import java.time.Instant;
-import java.util.Date;
+
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+
 
 public class CustomDeserializer extends JsonDeserializer<Instant> {
-	@SneakyThrows
-	@Override
-	public Instant deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		Date date = null;
 
-		System.out.println(jsonParser.getText());
-		date = df.parse(jsonParser.getText());
-		//System.out.println(df.format(date));
-		return date.toInstant();
+
+	private DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss").withZone(ZoneOffset.UTC);
+
+	@Override
+	public Instant deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+		return Instant.from(fmt.parse(p.getText()));
 	}
 }
+

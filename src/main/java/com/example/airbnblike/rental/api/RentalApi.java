@@ -10,6 +10,7 @@ import com.example.airbnblike.rental.service.RentalService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/rentals")
+@RequestMapping(name ="/api/v1/rentals", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 public class RentalApi {
 
     private final RentalService rentalService;
@@ -48,13 +49,7 @@ public class RentalApi {
     @PostMapping()
     public ResponseEntity<String> addRental(@RequestBody RentalDto rentalDto) {
         System.out.println(rentalDto);
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setDateFormat(df);
-        df.format(rentalDto.getCheckInTime());
-        df.format(rentalDto.getCheckOutTime());
-
-//        Rental newRental = rentalService.addRental(rentalDto);
+        Rental newRental = rentalService.addRental(rentalDto);
 //        imageService.uploadRentalImages(newRental.getImages(), rentalDto.getImages());
         return new ResponseEntity<>("", HttpStatus.OK);
     }
