@@ -21,10 +21,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
 @AllArgsConstructor
-@RequestMapping(value ="/api/v1/rentals", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping(value ="/api/v1/rentals")
 public class RentalApi {
 
     private final RentalService rentalService;
