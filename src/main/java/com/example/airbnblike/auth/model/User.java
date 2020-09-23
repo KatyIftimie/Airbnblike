@@ -3,6 +3,7 @@ package com.example.airbnblike.auth.model;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.reservation.model.Reservation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
+    @JsonManagedReference
     private List<Rental> rentals = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)

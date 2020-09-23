@@ -7,6 +7,7 @@ import com.example.airbnblike.image.model.Image;
 import com.example.airbnblike.reservation.model.Reservation;
 import com.example.airbnblike.review.model.Review;
 import com.example.airbnblike.room.model.Room;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -59,6 +60,7 @@ public class Rental {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
     private User hostUser;
 
     public void addRoom(Room room) {

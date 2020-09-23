@@ -327,9 +327,7 @@
     const form = document.getElementById("form");
     form.addEventListener("submit", function(event) {
         event.preventDefault();
-        const URL = API_URL + "/rentals";
         const formData = collectFormData();
-        console.log(formData)
         fetch(URL, {
             method: "POST",
             headers: {
@@ -392,9 +390,6 @@
             });
         });
 
-        const images = document.getElementById("images").files;
-
-        data.append("images", images);
         data.append("name", name);
         data.append("description", description);
         data.append("checkInTime", checkInTime);
