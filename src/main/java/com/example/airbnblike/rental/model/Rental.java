@@ -82,4 +82,15 @@ public class Rental {
     public void addImage(Image image) {
         images.add(image);
     }
+
+    public Float getMinimumPricePerNight() {
+        List<Room> rooms = getRooms();
+        Float minPrice = rooms.get(0).getPrice();
+        for (Room room : rooms) {
+            if(room.getPrice() < minPrice) {
+                minPrice = room.getPrice();
+            }
+        }
+        return minPrice;
+    }
 }
