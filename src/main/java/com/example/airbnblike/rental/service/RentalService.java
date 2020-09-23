@@ -71,12 +71,12 @@ public class RentalService {
             newRental.addAmenity(amenity);
         });
 
-        rentalDto.getImages().forEach(file -> {
-            Image image = new Image();
-            image.setFileName(generateUniqueImageFileName());
-            image.setOriginalFileName(file.getOriginalFilename());
-            newRental.addImage(image);
-        });
+//        rentalDto.getImages().forEach(file -> {
+//            Image image = new Image();
+//            image.setFileName(generateUniqueImageFileName());
+//            image.setOriginalFileName(file.getOriginalFilename());
+//            newRental.addImage(image);
+//        });
 
         Address address = addressService.createModelFromDto(new Address(), rentalDto.getAddressDto());
         addressService.save(address);

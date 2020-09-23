@@ -29,9 +29,9 @@ public class Rental {
     @TableGenerator(name = "rentalGen")
     private Long id;
     @NotNull private String name;
-    @NotNull @Lob @Type(type = "org.hibernate.type.TextType") private String description;
-    @NotNull private Instant checkInTime;
-    @NotNull private Instant checkOutTime;
+     @NotNull @Lob @Type(type = "org.hibernate.type.TextType") private String description;
+     @NotNull private Instant checkInTime;
+     @NotNull private Instant checkOutTime;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JsonManagedReference
