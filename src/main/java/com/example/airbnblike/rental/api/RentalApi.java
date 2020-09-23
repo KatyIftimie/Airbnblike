@@ -52,7 +52,7 @@ public class RentalApi {
     public ResponseEntity<String> addRental(@RequestBody RentalDto rentalDto) {
         System.out.println("this is it:" + rentalDto);
         Rental newRental = rentalService.addRental(rentalDto);
-        rentalRepository.save(newRental);
+//        rentalRepository.save(newRental);
 
 //        imageService.uploadRentalImages(newRental.getImages(), rentalDto.getImages());
         return new ResponseEntity<>("", HttpStatus.OK);
