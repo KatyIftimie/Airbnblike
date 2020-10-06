@@ -12,4 +12,5 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     @Transactional
     List<Rental> findAllByAddress_CountryIgnoreCase(String country);
+
 }

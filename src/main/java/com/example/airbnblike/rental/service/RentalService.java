@@ -53,6 +53,10 @@ public class RentalService {
         return rentalTypeRepository.getOne(ID);
     }
 
+    public List<Room> getRentalRooms(Long ID){
+        return getRentalByID(ID).getRooms();
+    }
+
     public Rental addRental(RentalDto rentalDto) {
         Rental newRental = new Rental();
         newRental.setName(rentalDto.getName());

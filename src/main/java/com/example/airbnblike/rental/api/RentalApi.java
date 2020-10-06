@@ -8,6 +8,7 @@ import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.rental.model.RentalType;
 import com.example.airbnblike.rental.repository.RentalRepository;
 import com.example.airbnblike.rental.service.RentalService;
+import com.example.airbnblike.room.model.Room;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,11 @@ public class RentalApi {
     @GetMapping("/{rentalID}")
     public Rental getRentalByID(@PathVariable("rentalID") String rentalID) {
         return rentalService.getRentalByID(Long.valueOf(rentalID));
+    }
+
+    @GetMapping("/{rentalID}/rooms")
+    public List<Room> getRentalRooms(@PathVariable("rentalID") String rentalID) {
+        return rentalService.getRentalRooms(Long.valueOf(rentalID));
     }
 
     @Transactional
