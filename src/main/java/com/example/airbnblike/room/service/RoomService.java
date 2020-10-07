@@ -58,4 +58,8 @@ public class RoomService {
     public List<RoomType> getAllRoomTypes(){
         return  roomTypeRepository.findAll();
     }
+
+    public Integer countAllRooms() {
+        return roomRepository.countAllBy();
+    }
 }

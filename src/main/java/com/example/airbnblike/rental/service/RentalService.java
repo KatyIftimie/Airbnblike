@@ -112,4 +112,8 @@ public class RentalService {
             index += 1;
         }
     }
+
+    public Integer countAllRentals() {
+        return rentalRepository.countAllBy();
+    }
 }

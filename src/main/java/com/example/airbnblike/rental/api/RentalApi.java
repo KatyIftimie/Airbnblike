@@ -6,6 +6,7 @@ import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.rental.model.RentalType;
 import com.example.airbnblike.rental.service.RentalService;
 import com.example.airbnblike.room.model.Room;
+import com.example.airbnblike.room.service.RoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,7 @@ import java.util.Map;
 public class RentalApi {
 
     private final RentalService rentalService;
+    private final RoomService roomService;
 
     @Transactional
     @GetMapping("/country/{country}")
@@ -55,5 +58,15 @@ public class RentalApi {
     public void addImages(@PathVariable("rentalID") String rentalID, @RequestBody UploadImagesRequest uploadImagesRequest, HttpServletResponse response, HttpSession session) throws IOException {
         rentalService.uploadImagesForRental(Long.valueOf(rentalID), uploadImagesRequest);
         response.sendRedirect("/rental-details/" + rentalID);
+    }
+
+    @GetMapping("/count-rentals-and-rooms")
+    public Map<String, Integer> countAllRentalsAndRooms() {
+        Integer countRentals = rentalService.countAllRentals();
+        Integer countRooms = roomService.countAllRooms();
+        Map<String, Integer> response = new HashMap<>();
+        response.put("count_rentals", countRentals);
+        response.put("count_rooms", countRooms);
+        return response;
     }
 }
