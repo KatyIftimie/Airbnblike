@@ -20,14 +20,14 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
-    private UserType type;
+    private String type;
 
-    public UserType getType() {
+    public String getType() {
         return type;
     }
 
     public UserDetailsImpl(String email, String password,
-                           UserType type) {
+                           String type) {
         this.email = email;
         this.password = password;
         this.type = type;
@@ -38,7 +38,7 @@ public class UserDetailsImpl implements UserDetails {
 
                 user.getEmail(),
                 user.getPassword(),
-                user.getType());
+                user.getType().getName().toString());
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -41,8 +42,8 @@ public class AuthApi {
     }
 
     @PostMapping("/login")
-    public ResponseEntity loginUser(@RequestBody LoginRequest data) {
-//        return authService.login(request, session);
+    public ResponseEntity loginUser(@RequestBody LoginRequest data, HttpServletResponse response) {
+//         authService.login(request, session);
         try {
             String email = data.getEmail();
             // authenticationManager.authenticate calls loadUserByUsername in CustomUserDetailsService
@@ -58,6 +59,13 @@ public class AuthApi {
             model.put("email", email);
             model.put("roles", roles);
             model.put("token", token);
+
+//            Cookie cookie=new Cookie("token",token);
+//            cookie.setMaxAge(60*60*24);
+//            response.addCookie(cookie);
+
+
+
             return ResponseEntity.ok(model);
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid email/password supplied");
