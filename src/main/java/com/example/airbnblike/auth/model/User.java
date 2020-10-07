@@ -50,4 +50,10 @@ public class User {
     public void addReservation(Reservation reservation) {
         reservations.add(reservation);
     }
+
+    public ArrayList<String> getRoles(){
+        ArrayList<String> role= new ArrayList<>();
+        role.add(getType().toString());
+        return role;
+    }
 }
