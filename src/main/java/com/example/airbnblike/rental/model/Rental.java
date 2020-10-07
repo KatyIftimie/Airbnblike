@@ -3,7 +3,6 @@ package com.example.airbnblike.rental.model;
 import com.example.airbnblike.address.model.Address;
 import com.example.airbnblike.amenity.model.Amenity;
 import com.example.airbnblike.auth.model.User;
-import com.example.airbnblike.image.model.Image;
 import com.example.airbnblike.reservation.model.Reservation;
 import com.example.airbnblike.review.model.Review;
 import com.example.airbnblike.room.model.Room;
@@ -47,9 +46,6 @@ public class Rental {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Image> images = new ArrayList<>();
-
     @OneToOne(mappedBy = "rental")
     @JsonManagedReference
     private Address address;
@@ -77,10 +73,6 @@ public class Rental {
 
     public void addReservation(Reservation reservation) {
         reservations.add(reservation);
-    }
-
-    public void addImage(Image image) {
-        images.add(image);
     }
 
     public Float getMinimumPricePerNight() {

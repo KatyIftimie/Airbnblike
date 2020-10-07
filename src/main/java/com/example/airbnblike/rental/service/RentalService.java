@@ -5,10 +5,8 @@ import com.example.airbnblike.address.service.AddressService;
 import com.example.airbnblike.amenity.model.Amenity;
 import com.example.airbnblike.amenity.service.AmenityService;
 import com.example.airbnblike.auth.service.AuthService;
-import com.example.airbnblike.aws.service.AWSS3ServiceImpl;
+import com.example.airbnblike.aws.service.AWSS3Service;
 import com.example.airbnblike.image.dto.UploadImagesRequest;
-import com.example.airbnblike.image.model.Image;
-import com.example.airbnblike.image.service.ImageService;
 import com.example.airbnblike.rental.dto.RentalDto;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.rental.model.RentalType;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.*;
 import java.util.*;
 
 @Service
@@ -34,8 +31,7 @@ public class RentalService {
     private final AmenityService amenityService;
     private final AddressService addressService;
     private final AuthService authService;
-    private final ImageService imageService;
-    private final AWSS3ServiceImpl s3Service;
+    private final AWSS3Service s3Service;
 
     @Transactional
     public List<Rental> getRentalsByCountry(String country) {
@@ -90,10 +86,6 @@ public class RentalService {
 
         savedRental.getRooms().forEach(room -> {
             room.setRental(savedRental);
-        });
-
-        savedRental.getImages().forEach(image -> {
-            image.setRental(savedRental);
         });
 
         address.setRental(savedRental);
