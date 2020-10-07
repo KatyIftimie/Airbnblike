@@ -2,6 +2,7 @@ package com.example.airbnblike.rental.api;
 
 import com.example.airbnblike.TestImageService;
 import com.example.airbnblike.aws.service.AWSS3Service;
+import com.example.airbnblike.image.dto.UploadImagesRequest;
 import com.example.airbnblike.image.service.ImageService;
 import com.example.airbnblike.rental.dto.RentalDto;
 import com.example.airbnblike.rental.model.Rental;
@@ -18,9 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -29,8 +33,6 @@ import java.util.List;
 public class RentalApi {
 
     private final RentalService rentalService;
-    private final ImageService imageService;
-    private final RentalRepository rentalRepository;
 
     @Transactional
     @GetMapping("/country/{country}")
@@ -54,13 +56,14 @@ public class RentalApi {
         return rentalService.getAllRentalTypes();
     }
 
-    @PostMapping()
-    public ResponseEntity<String> addRental(@RequestBody RentalDto rentalDto) {
-        System.out.println("this is it:" + rentalDto);
-        Rental newRental = rentalService.addRental(rentalDto);
-//        rentalRepository.save(newRental);
+    @PostMapping
+    public Map<String, Long> addRental(@RequestBody RentalDto rentalDto) {
+        return rentalService.addRental(rentalDto);
+    }
 
-//        imageService.uploadRentalImages(newRental.getImages(), rentalDto.getImages());
-        return new ResponseEntity<>("", HttpStatus.OK);
+    @PostMapping(value = "/{rentalID}/images", consumes = { "multipart/form-data" })
+    public void addImages(@PathVariable("rentalID") String rentalID, @RequestBody UploadImagesRequest uploadImagesRequest, HttpServletResponse response, HttpSession session) throws IOException {
+        rentalService.uploadImagesForRental(Long.valueOf(rentalID), uploadImagesRequest);
+        response.sendRedirect("/rental-details/" + rentalID);
     }
 }

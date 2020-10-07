@@ -5,6 +5,8 @@ import com.example.airbnblike.address.service.AddressService;
 import com.example.airbnblike.amenity.model.Amenity;
 import com.example.airbnblike.amenity.service.AmenityService;
 import com.example.airbnblike.auth.service.AuthService;
+import com.example.airbnblike.aws.service.AWSS3ServiceImpl;
+import com.example.airbnblike.image.dto.UploadImagesRequest;
 import com.example.airbnblike.image.model.Image;
 import com.example.airbnblike.image.service.ImageService;
 import com.example.airbnblike.rental.dto.RentalDto;
@@ -17,10 +19,10 @@ import com.example.airbnblike.room.service.RoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.*;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -33,6 +35,7 @@ public class RentalService {
     private final AddressService addressService;
     private final AuthService authService;
     private final ImageService imageService;
+    private final AWSS3ServiceImpl s3Service;
 
     @Transactional
     public List<Rental> getRentalsByCountry(String country) {
@@ -57,7 +60,7 @@ public class RentalService {
         return getRentalByID(ID).getRooms();
     }
 
-    public Rental addRental(RentalDto rentalDto) {
+    public Map<String, Long> addRental(RentalDto rentalDto) {
         Rental newRental = new Rental();
         newRental.setName(rentalDto.getName());
         newRental.setDescription(rentalDto.getDescription());
@@ -74,13 +77,6 @@ public class RentalService {
             Amenity amenity = amenityService.getAmenityByID(ID);
             newRental.addAmenity(amenity);
         });
-
-//        rentalDto.getImages().forEach(file -> {
-//            Image image = new Image();
-//            image.setFileName(generateUniqueImageFileName());
-//            image.setOriginalFileName(file.getOriginalFilename());
-//            newRental.addImage(image);
-//        });
 
         Address address = addressService.createModelFromDto(new Address(), rentalDto.getAddressDto());
         addressService.save(address);
@@ -107,16 +103,21 @@ public class RentalService {
 
         Rental newSavedRental = rentalRepository.save(savedRental);
         rentalRepository.flush();
-        return newSavedRental;
+
+        Map<String, Long> response = new HashMap<>();
+        response.put("new_rental_id", newSavedRental.getId());
+        return response;
     }
 
-    private String generateUniqueImageFileName() {
-        String fileName;
-        Image image;
-        do {
-            fileName = UUID.randomUUID().toString();
-            image = imageService.getImageByFileName(fileName);
-        } while (image != null);
-        return fileName;
+    public void uploadImagesForRental(Long rentalID, UploadImagesRequest request) {
+        List<MultipartFile> files = Arrays.asList(request.getFile1(), request.getFile2(), request.getFile3(), request.getFile4(), request.getFile5());
+        int index = 0;
+        for (MultipartFile file : files) {
+            if (!file.isEmpty()) {
+                String fileName = String.format("rental-%s-%s", rentalID, index);
+                s3Service.uploadFile(file, fileName, "products");
+            }
+            index += 1;
+        }
     }
 }
