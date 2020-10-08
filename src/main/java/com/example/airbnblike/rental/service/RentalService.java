@@ -105,9 +105,9 @@ public class RentalService {
         List<MultipartFile> files = Arrays.asList(request.getFile1(), request.getFile2(), request.getFile3(), request.getFile4(), request.getFile5());
         int index = 0;
         for (MultipartFile file : files) {
-            if (!file.isEmpty()) {
+            if (file != null) {
                 String fileName = String.format("rental-%s-%s", rentalID, index);
-                s3Service.uploadFile(file, fileName, "products");
+                s3Service.uploadFile(file, fileName, "rentals");
             }
             index += 1;
         }

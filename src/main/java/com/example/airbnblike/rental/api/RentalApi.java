@@ -8,8 +8,10 @@ import com.example.airbnblike.rental.service.RentalService;
 import com.example.airbnblike.room.model.Room;
 import com.example.airbnblike.room.service.RoomService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -54,10 +56,22 @@ public class RentalApi {
         return rentalService.addRental(rentalDto);
     }
 
-    @PostMapping(value = "/{rentalID}/images", consumes = { "multipart/form-data" })
-    public void addImages(@PathVariable("rentalID") String rentalID, @RequestBody UploadImagesRequest uploadImagesRequest, HttpServletResponse response, HttpSession session) throws IOException {
+    @PostMapping(value = "/{rentalID}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void addImages(
+            @PathVariable("rentalID") String rentalID, 
+            @RequestPart(required = false) MultipartFile file1, 
+            @RequestPart(required = false) MultipartFile file2, 
+            @RequestPart(required = false) MultipartFile file3,
+            @RequestPart(required = false) MultipartFile file4,
+            @RequestPart(required = false) MultipartFile file5
+    ) {
+        UploadImagesRequest uploadImagesRequest = new UploadImagesRequest();
+        uploadImagesRequest.setFile1(file1);
+        uploadImagesRequest.setFile2(file2);
+        uploadImagesRequest.setFile3(file3);
+        uploadImagesRequest.setFile4(file4);
+        uploadImagesRequest.setFile5(file5);
         rentalService.uploadImagesForRental(Long.valueOf(rentalID), uploadImagesRequest);
-        response.sendRedirect("/rental-details/" + rentalID);
     }
 
     @GetMapping("/count-rentals-and-rooms")
