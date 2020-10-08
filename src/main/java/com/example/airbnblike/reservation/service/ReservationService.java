@@ -29,7 +29,7 @@ public class ReservationService {
         newReservation.setTotalAmount(reservationDto.getTotalAmount());
         newReservation.setRental(rentalService.getRentalByID(reservationDto.getRentalID()));
         newReservation.setStatus(reservationStatusRepository.getOne(reservationDto.getReservationStatusID()));
-        newReservation.setGuestUser(authService.getUserByID(reservationDto.getGuestUserID()));
+        newReservation.setGuestAppUser(authService.getUserByID(reservationDto.getGuestUserID()));
 
         reservationDto.getReservedRoomsIDs().forEach(ID -> {
             Room room = roomService.getRoomByID(ID);

@@ -18,7 +18,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,7 +86,7 @@ public class RentalService {
         newRental.setAddress(address);
 
         newRental.setType(getRentalTypeByID(rentalDto.getRentalTypeID()));
-        newRental.setHostUser(authService.getUserByID(rentalDto.getHostUserID()));
+        newRental.setHostAppUser(authService.getUserByID(rentalDto.getHostUserID()));
 
         Rental savedRental = rentalRepository.save(newRental);
         rentalRepository.flush();

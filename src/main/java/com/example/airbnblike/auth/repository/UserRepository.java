@@ -1,11 +1,13 @@
 package com.example.airbnblike.auth.repository;
 
-import com.example.airbnblike.auth.model.User;
+import com.example.airbnblike.auth.model.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.Optional;
 
-    User getByEmail(String email);
+@Repository
+public interface UserRepository extends JpaRepository<AppUser, Long> {
+
+    Optional <AppUser> getByEmail(String email);
 }

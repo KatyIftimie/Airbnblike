@@ -17,7 +17,7 @@ import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor @Setter @Getter
 @Entity @Table(name = "users")
-public class User {
+public class AppUser {
 
     @Id
     @GeneratedValue(generator = "userGen")
@@ -30,9 +30,9 @@ public class User {
     @JsonIgnore @NotNull private String password;
     private boolean isVerified = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_type", referencedColumnName = "id")
-    private UserType type;
+    private List<UserType> type= new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
@@ -51,9 +51,17 @@ public class User {
         reservations.add(reservation);
     }
 
-    public ArrayList<String> getRoles(){
-        ArrayList<String> role= new ArrayList<>();
-        role.add(getType().toString());
-        return role;
+    public void addUserType(UserType userType){
+        type.add(userType);
     }
+
+    public ArrayList<String> getRoles(){
+        ArrayList<String> roles=new ArrayList<>();
+        for ( int i=0;i<= type.size();i++){
+            roles.add(type.get(i).getName().toString());
+        }
+
+        return roles;
+    }
+
 }

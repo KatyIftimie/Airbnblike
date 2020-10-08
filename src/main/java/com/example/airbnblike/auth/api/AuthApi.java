@@ -2,7 +2,7 @@ package com.example.airbnblike.auth.api;
 
 import com.example.airbnblike.auth.dto.LoginRequest;
 import com.example.airbnblike.auth.dto.RegisterRequest;
-import com.example.airbnblike.auth.model.User;
+import com.example.airbnblike.auth.model.AppUser;
 import com.example.airbnblike.auth.repository.UserRepository;
 import com.example.airbnblike.auth.service.AuthService;
 import com.example.airbnblike.security.TokenServices;
@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -34,7 +36,7 @@ public class AuthApi {
     private final AuthService authService;
     private final TokenServices tokenServices;
     private final UserRepository userRepository;
-
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody RegisterRequest request) {
@@ -46,8 +48,9 @@ public class AuthApi {
 //         authService.login(request, session);
         try {
             String email = data.getEmail();
+            String password = data.getPassword();
             // authenticationManager.authenticate calls loadUserByUsername in CustomUserDetailsService
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, data.getPassword()));
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             List<String> roles = authentication.getAuthorities()
                     .stream()
                     .map(GrantedAuthority::getAuthority)
@@ -60,15 +63,16 @@ public class AuthApi {
             model.put("roles", roles);
             model.put("token", token);
 
-//            Cookie cookie=new Cookie("token",token);
-//            cookie.setMaxAge(60*60*24);
-//            response.addCookie(cookie);
+            Cookie cookie=new Cookie("token",token);
+            cookie.setMaxAge(60*60*24);
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
 
 
 
             return ResponseEntity.ok(model);
         } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid email/password supplied");
+            throw e;
         }
     }
 
@@ -85,7 +89,7 @@ public class AuthApi {
     }
 
     @GetMapping("/get-user/{email}")
-    public User returnUser(@PathVariable String email ) {
+    public Optional<AppUser> returnUser(@PathVariable String email ) {
         return authService.getUserByEmail(email);
     }
 }

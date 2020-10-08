@@ -1,7 +1,6 @@
 package com.example.airbnblike.reservation.model;
 
-import com.example.airbnblike.auth.model.User;
-import com.example.airbnblike.review.model.Review;
+import com.example.airbnblike.auth.model.AppUser;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.room.model.Room;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,6 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +42,7 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User guestUser;
+    private AppUser guestAppUser;
 
     public void addRoom(Room room){
         reservedRooms.add(room);
