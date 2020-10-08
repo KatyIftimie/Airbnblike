@@ -14,6 +14,6 @@ public class TestApiController {
 
     @GetMapping("/add-data")
     public void addData(){
-        dataInsertion.addData2();
+        dataInsertion.addData1();
     }
 }
