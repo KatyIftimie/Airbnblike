@@ -40,6 +40,7 @@ public class Rental {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Amenity> amenities = new ArrayList<>();
 
+    @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY)
     private List<Reservation> reservations = new ArrayList<>();
 

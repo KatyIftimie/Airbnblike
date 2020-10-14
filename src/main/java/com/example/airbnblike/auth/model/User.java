@@ -2,6 +2,7 @@ package com.example.airbnblike.auth.model;
 
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.reservation.model.Reservation;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,7 @@ public class User {
     @JsonManagedReference
     private List<Rental> rentals = new ArrayList<>();
 
+    @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_id", referencedColumnName = "id")
     private List<Reservation> reservations = new ArrayList<>();
