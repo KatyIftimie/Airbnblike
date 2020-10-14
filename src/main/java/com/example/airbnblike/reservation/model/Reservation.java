@@ -1,7 +1,6 @@
 package com.example.airbnblike.reservation.model;
 
 import com.example.airbnblike.auth.model.User;
-import com.example.airbnblike.review.model.Review;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.room.model.Room;
 import lombok.AllArgsConstructor;
@@ -12,12 +11,15 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@AllArgsConstructor @NoArgsConstructor @Setter @Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+
 @Entity @Table(name = "reservations")
 public class Reservation {
 
