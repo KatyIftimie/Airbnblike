@@ -37,7 +37,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Rental> rentals = new ArrayList<>();
 
     @JsonBackReference

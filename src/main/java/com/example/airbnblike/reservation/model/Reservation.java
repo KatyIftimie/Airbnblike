@@ -3,6 +3,7 @@ package com.example.airbnblike.reservation.model;
 import com.example.airbnblike.auth.model.User;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.room.model.Room;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -33,10 +34,10 @@ public class Reservation {
     @NotNull private Date checkOutDate;
     @NotNull private Float totalAmount;
     @Lob @Type(type = "org.hibernate.type.TextType") private String messageToHost;
-
-   @JsonManagedReference
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
+    @JsonBackReference
     private Rental rental;
 
     @JsonIgnore
@@ -48,10 +49,10 @@ public class Reservation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_status_id", referencedColumnName = "id")
     private ReservationStatus status;
-
-   @JsonManagedReference
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
     private User guestUser;
 
     public void addRoom(Room room){
