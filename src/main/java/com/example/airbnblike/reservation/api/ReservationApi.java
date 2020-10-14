@@ -2,11 +2,14 @@ package com.example.airbnblike.reservation.api;
 
 import com.example.airbnblike.rental.dto.RentalDto;
 import com.example.airbnblike.reservation.dto.ReservationDto;
+import com.example.airbnblike.reservation.model.Reservation;
 import com.example.airbnblike.reservation.service.ReservationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -20,5 +23,10 @@ public class ReservationApi {
     public ResponseEntity<String> addReservation(@RequestBody ReservationDto reservationDto) {
         reservationService.addReservation(reservationDto);
         return new ResponseEntity<>("", HttpStatus.OK);
+    }
+    
+    @GetMapping("/user/{user_id}")
+    public List<Reservation> getUserReservations(@PathVariable("user_id") String userId) {
+        return reservationService.getAllByUserId(Long.valueOf(userId));
     }
 }

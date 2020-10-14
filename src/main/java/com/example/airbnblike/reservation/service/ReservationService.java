@@ -10,6 +10,9 @@ import com.example.airbnblike.room.model.Room;
 import com.example.airbnblike.room.service.RoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service @AllArgsConstructor
 public class ReservationService {
@@ -21,7 +24,7 @@ public class ReservationService {
 
 
 
-    public  void addReservation(ReservationDto reservationDto){
+    public void addReservation(ReservationDto reservationDto){
         Reservation newReservation= new Reservation();
         newReservation.setCheckInDate(reservationDto.getCheckInDate());
         newReservation.setCheckOutDate(reservationDto.getCheckOutDate());
@@ -44,5 +47,10 @@ public class ReservationService {
         authService.getUserByID(reservationDto.getGuestUserID()).addReservation(savedReservation);
 
         reservationRepository.save(savedReservation);
+    }
+    
+    @Transactional
+    public List<Reservation> getAllByUserId(Long userId) {
+        return reservationRepository.findAllByGuestUser_Id(userId);
     }
 }
