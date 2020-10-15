@@ -7,6 +7,7 @@ import com.example.airbnblike.reservation.model.Reservation;
 import com.example.airbnblike.review.model.Review;
 import com.example.airbnblike.room.model.Room;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,7 +42,7 @@ public class Rental {
     private List<Amenity> amenities = new ArrayList<>();
     
     @OneToMany(fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonBackReference
     private List<Reservation> reservations = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)

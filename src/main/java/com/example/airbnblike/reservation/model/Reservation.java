@@ -37,10 +37,9 @@ public class Reservation {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
-    @JsonBackReference
+    @JsonManagedReference
     private Rental rental;
-
-    @JsonIgnore
+    
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private List<Room> reservedRooms = new ArrayList<>();

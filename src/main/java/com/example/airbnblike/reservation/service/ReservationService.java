@@ -43,7 +43,7 @@ public class ReservationService {
         reservationRepository.flush();
 
         savedReservation.getReservedRooms().forEach(room -> room.addReservation(savedReservation));
-        rentalService.getRentalByID(reservationDto.getRentalID()).addReservation(savedReservation);
+//        rentalService.getRentalByID(reservationDto.getRentalID()).addReservation(savedReservation);
         authService.getUserByID(reservationDto.getGuestUserID()).addReservation(savedReservation);
 
         reservationRepository.save(savedReservation);
