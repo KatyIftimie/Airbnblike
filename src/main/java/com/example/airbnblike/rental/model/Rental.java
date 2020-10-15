@@ -58,7 +58,7 @@ public class Rental {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonBackReference
+    @JsonManagedReference
     private User hostUser;
 
     public void addRoom(Room room) {
