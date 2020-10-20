@@ -27,8 +27,8 @@ public class AuthApi {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest request, HttpSession session) {
-        return authService.login(request, session);
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest request, HttpServletResponse response) {
+        return authService.login(request, response);
     }
 
     @GetMapping("/is-logged-in")

@@ -18,6 +18,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +55,7 @@ public class AuthService {
         return validation;
     }
 
-    public ResponseEntity<?> login(LoginRequest request, HttpSession session) {
+    public ResponseEntity<?> login(LoginRequest request,  HttpServletResponse response) {
         try {
             String email = request.getEmail();
             // authenticationManager.authenticate calls loadUserByUsername in CustomUserDetailsService
@@ -69,6 +71,12 @@ public class AuthService {
             model.put("email", email);
             model.put("roles", roles);
             model.put("token", token);
+            Cookie cookie=new Cookie("token",token);
+            cookie.setMaxAge(606024);
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+
+
             return ResponseEntity.ok(model);
         } catch (AuthenticationException e) {
             throw e;

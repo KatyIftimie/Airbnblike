@@ -51,6 +51,6 @@ public class ReservationService {
     
     @Transactional
     public List<Reservation> getAllByUserId(Long userId) {
-        return reservationRepository.findAllByGuestUser_Id(userId);
+        return reservationRepository.findAllByGuestAppUser_Id(userId);
     }
 }

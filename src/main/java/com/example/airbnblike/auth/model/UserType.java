@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class UserType {
 
     public enum Type {
-        GUEST, HOST, ADMIN
+        ROLE_GUEST, ROLE_HOST, ROLE_ADMIN
     }
 
     @Id

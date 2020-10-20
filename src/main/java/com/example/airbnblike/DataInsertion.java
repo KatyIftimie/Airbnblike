@@ -36,17 +36,17 @@ public class DataInsertion {
     public void addData1(){
         // Default user types
         UserType ut1 = new UserType();
-        ut1.setName(UserType.Type.ADMIN);
+        ut1.setName(UserType.Type.ROLE_ADMIN);
         ut1.setDescription("Verifies hosts, checks reviews, moderates problems, blocks users, removes spam");
         userTypeRepository.save(ut1);
 
         UserType ut2 = new UserType();
-        ut2.setName(UserType.Type.HOST);
+        ut2.setName(UserType.Type.ROLE_HOST);
         ut2.setDescription("Uploads and manages one or more rentals, makes bookings");
         userTypeRepository.save(ut2);
 
         UserType ut3 = new UserType();
-        ut3.setName(UserType.Type.GUEST);
+        ut3.setName(UserType.Type.ROLE_GUEST);
         ut3.setDescription("Makes and manages bookings, leaves reviews");
         userTypeRepository.save(ut3);
 

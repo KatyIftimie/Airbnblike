@@ -11,5 +11,5 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     
     @Transactional
-    List<Reservation> findAllByGuestUser_Id(Long userID);
+    List<Reservation> findAllByGuestAppUser_Id(Long userID);
 }
