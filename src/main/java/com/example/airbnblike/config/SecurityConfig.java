@@ -32,11 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/login").permitAll()
-
-                .antMatchers(HttpMethod.GET, "/api/v1/rentals/**").hasRole("HOST")
+                .antMatchers("/api/v1/auth/register").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/rentals/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/api/v1/reservations/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/v1/rentals/**").hasRole("HOST")
+                .antMatchers(HttpMethod.POST, "/api/v1/reservations/**").hasRole("GUEST")
                 .anyRequest().denyAll()
-        // NEW PART:
-        .and()
+                // NEW PART:
+                .and()
                 .addFilterBefore(new JwtTokenFilter(jwtTokenServices), UsernamePasswordAuthenticationFilter.class);
     }
 
