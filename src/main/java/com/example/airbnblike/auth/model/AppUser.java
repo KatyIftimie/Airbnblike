@@ -18,7 +18,7 @@ import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor @Setter @Getter
 @Entity @Table(name = "users")
-public class User {
+public class AppUser {
 
     @Id
     @GeneratedValue(generator = "userGen")
@@ -48,7 +48,11 @@ public class User {
     public void addRental(Rental rental) {
         rentals.add(rental);
     }
-
+    public List<String> getRoles(){
+        List<String> roles=new ArrayList<>();
+        roles.add(getType().getName().toString());
+        return roles;
+    }
     public void addReservation(Reservation reservation) {
         reservations.add(reservation);
     }

@@ -1,6 +1,6 @@
 package com.example.airbnblike.reservation.model;
 
-import com.example.airbnblike.auth.model.User;
+import com.example.airbnblike.auth.model.AppUser;
 import com.example.airbnblike.rental.model.Rental;
 import com.example.airbnblike.room.model.Room;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -52,7 +52,7 @@ public class Reservation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
-    private User guestUser;
+    private AppUser guestAppUser;
 
     public void addRoom(Room room){
         reservedRooms.add(room);

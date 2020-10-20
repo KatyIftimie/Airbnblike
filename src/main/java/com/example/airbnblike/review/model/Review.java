@@ -1,8 +1,7 @@
 package com.example.airbnblike.review.model;
 
-import com.example.airbnblike.auth.model.User;
+import com.example.airbnblike.auth.model.AppUser;
 import com.example.airbnblike.rental.model.Rental;
-import com.example.airbnblike.reservation.model.Reservation;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +27,7 @@ public class Review {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "reservation_id", referencedColumnName = "id")

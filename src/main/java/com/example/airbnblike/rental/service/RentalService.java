@@ -79,7 +79,7 @@ public class RentalService {
         newRental.setAddress(address);
 
         newRental.setType(getRentalTypeByID(rentalDto.getRentalTypeID()));
-        newRental.setHostUser(authService.getUserByID(rentalDto.getHostUserID()));
+        newRental.setHostAppUser(authService.getUserByID(rentalDto.getHostUserID()));
 
         Rental savedRental = rentalRepository.save(newRental);
         rentalRepository.flush();

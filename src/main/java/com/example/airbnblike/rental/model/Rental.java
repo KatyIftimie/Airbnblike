@@ -2,12 +2,11 @@ package com.example.airbnblike.rental.model;
 
 import com.example.airbnblike.address.model.Address;
 import com.example.airbnblike.amenity.model.Amenity;
-import com.example.airbnblike.auth.model.User;
+import com.example.airbnblike.auth.model.AppUser;
 import com.example.airbnblike.reservation.model.Reservation;
 import com.example.airbnblike.review.model.Review;
 import com.example.airbnblike.room.model.Room;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -59,7 +58,7 @@ public class Rental {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonManagedReference
-    private User hostUser;
+    private AppUser hostAppUser;
 
     public void addRoom(Room room) {
         rooms.add(room);

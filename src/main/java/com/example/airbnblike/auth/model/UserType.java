@@ -22,4 +22,9 @@ public class UserType {
     private Long id;
     @NotNull @Enumerated(EnumType.STRING) private Type name;
     private String description;
+
+    @Override
+    public String toString() {
+        return ""+ name;
+    }
 }
