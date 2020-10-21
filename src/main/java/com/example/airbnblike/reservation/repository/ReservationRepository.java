@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -12,4 +13,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     
     @Transactional
     List<Reservation> findAllByGuestAppUser_Id(Long userID);
+
+    @Transactional
+    List<Reservation> findByCheckInDateAfterAndCheckOutDateBeforeAndRentalId(Date checkIn, Date checkOut, long rentalID);
+
 }

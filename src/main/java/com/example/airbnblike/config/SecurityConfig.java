@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/v1/rentals/**/images").hasRole("HOST")
                 .antMatchers(HttpMethod.POST, "/api/v1/reservations").hasRole("GUEST")
                 .antMatchers(HttpMethod.GET, "/api/v1/reservations/user/**").hasRole("GUEST")
+                .antMatchers(HttpMethod.GET, "/api/v1/reservations/bookedRooms").hasRole("GUEST")
                 .anyRequest().denyAll()
                 // NEW PART:
                 .and()

@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service @AllArgsConstructor
@@ -52,5 +53,13 @@ public class ReservationService {
     @Transactional
     public List<Reservation> getAllByUserId(Long userId) {
         return reservationRepository.findAllByGuestAppUser_Id(userId);
+    }
+
+    @Transactional
+    public List<Reservation> getExistingBookings(ReservationDto reservationDto){
+        Date checkIn = reservationDto.getCheckInDate();
+        Date checkOut = reservationDto.getCheckOutDate();
+        Long id = reservationDto.getRentalID();
+        return reservationRepository.findByCheckInDateAfterAndCheckOutDateBeforeAndRentalId(checkIn, checkOut, id);
     }
 }
