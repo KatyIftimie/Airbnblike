@@ -50,6 +50,7 @@ public class AuthService {
         ResponseEntity<String> validation = validateRegister(request);
         if (validation.getStatusCode().equals(HttpStatus.OK)) {
             AppUser newAppUser = createUserFromRequest(request);
+
             userRepository.save(newAppUser);
         }
         return validation;
@@ -98,7 +99,7 @@ public class AuthService {
 
     private ResponseEntity<String> validateRegister(RegisterRequest request) {
         Optional<AppUser> appUserOptional = getUserByEmail(request.getEmail());
-        if (appUserOptional != null) {
+        if (appUserOptional.isPresent()) {
             return new ResponseEntity<>("Email already exists!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (!request.getPassword().equals(request.getConfirmPassword())) {
@@ -111,7 +112,7 @@ public class AuthService {
     private ResponseEntity<String> validateLogin(LoginRequest request) {
         String errorMessage = "Invalid credentials";
         Optional<AppUser> appUserOptional = getUserByEmail(request.getEmail());
-        if (appUserOptional == null) {
+        if (!appUserOptional.isPresent()) {
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (!passwordEncoder.matches(request.getPassword(), appUserOptional.get().getPassword())) {

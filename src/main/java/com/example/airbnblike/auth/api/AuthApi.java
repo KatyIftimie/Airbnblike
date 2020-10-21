@@ -23,6 +23,7 @@ public class AuthApi {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody RegisterRequest request) {
+
         return authService.register(request);
     }
 
