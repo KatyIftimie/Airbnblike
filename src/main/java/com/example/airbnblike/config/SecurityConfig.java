@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/auth/login").permitAll()
                 .antMatchers("/api/v1/auth/register").permitAll()
                 .antMatchers("/api/v1/images/**").permitAll()
+                .antMatchers("/api/v1/rentals/count-rentals-and-rooms").permitAll()
                 .antMatchers("/api/v1/auth/get-user/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/v1/rentals/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/v1/beds").hasRole("HOST")
