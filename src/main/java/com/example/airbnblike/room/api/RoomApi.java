@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000",allowedHeaders = "*")
 @RequestMapping("/api/v1/rooms")
 public class RoomApi {
 
