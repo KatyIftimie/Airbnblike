@@ -12,10 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -60,7 +57,10 @@ public class ReservationService {
     }
 
     @Transactional
-    public List<List<Room>> getExistingBookings(ReservationDto reservationDto) {
+    public Set<Long> getExistingBookings(ReservationDto reservationDto) {
+
+        //TO DO query in repository
+        //TO DO .... WRITE TEST!!!
         Date checkIn = reservationDto.getCheckInDate();
         Date checkOut = reservationDto.getCheckOutDate();
         Long id = reservationDto.getRentalID();
@@ -74,6 +74,13 @@ public class ReservationService {
         for (Reservation reservation : newList){
             bookedRooms.add( reservation.getReservedRooms());
         }
-        return bookedRooms;
+        List<Long> rooms_ids = new ArrayList<>();
+        for (List<Room> roomList: bookedRooms ){
+            for (Room room : roomList) {
+                rooms_ids.add(room.getId());
+            }
+        }
+        Set<Long> ids = new HashSet<Long>(rooms_ids);
+        return  ids;
     }
 }

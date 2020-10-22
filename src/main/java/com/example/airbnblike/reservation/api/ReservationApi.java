@@ -4,14 +4,17 @@ package com.example.airbnblike.reservation.api;
 import com.example.airbnblike.reservation.dto.ReservationDto;
 import com.example.airbnblike.reservation.model.Reservation;
 import com.example.airbnblike.reservation.service.ReservationService;
-import com.example.airbnblike.room.model.Room;
+
+import com.example.airbnblike.room.repository.RoomRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -20,6 +23,7 @@ import java.util.List;
 public class ReservationApi {
 
     private final ReservationService reservationService;
+
 
     @PostMapping()
     public ResponseEntity<String> addReservation(@RequestBody ReservationDto reservationDto) {
@@ -32,8 +36,11 @@ public class ReservationApi {
         return reservationService.getAllByUserId(Long.valueOf(userId));
     }
 
-    @GetMapping("/bookedRooms")
-    public List<List<Room>> getBookedRooms(@RequestBody ReservationDto reservationDto ) {
+    @PostMapping(value = "/bookedRooms")
+    public Set<Long> getBookedRooms(@RequestBody ReservationDto reservationDto  ) {
+        ///do some data verification in ALL methods
+        System.out.println(reservationDto);
+
         return reservationService.getExistingBookings(reservationDto);
     }
 }
