@@ -12,8 +12,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service @AllArgsConstructor
 public class ReservationService {
@@ -56,10 +60,16 @@ public class ReservationService {
     }
 
     @Transactional
-    public List<Reservation> getExistingBookings(ReservationDto reservationDto){
+    public List<Reservation> getExistingBookings(ReservationDto reservationDto) {
         Date checkIn = reservationDto.getCheckInDate();
         Date checkOut = reservationDto.getCheckOutDate();
         Long id = reservationDto.getRentalID();
-        return reservationRepository.findByCheckInDateAfterAndCheckOutDateBeforeAndRentalId(checkIn, checkOut, id);
+        List <Reservation> list1 = reservationRepository.findAllByCheckInDateAfterAndCheckOutDateBeforeAndRentalId(checkIn, checkOut, id);
+        List <Reservation> list2 = reservationRepository.findAllByCheckInDateIsBeforeAndCheckOutDateIsAfterAndRentalId(checkIn, checkIn, id);
+        List <Reservation> list3 = reservationRepository.findAllByCheckInDateIsBeforeAndCheckOutDateIsAfterAndRentalId(checkOut, checkOut, id);
+        List<Reservation> newList = Stream.of(list1, list2, list3)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+        return newList;
     }
 }

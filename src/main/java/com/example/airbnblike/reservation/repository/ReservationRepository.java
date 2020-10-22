@@ -15,6 +15,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findAllByGuestAppUser_Id(Long userID);
 
     @Transactional
-    List<Reservation> findByCheckInDateAfterAndCheckOutDateBeforeAndRentalId(Date checkIn, Date checkOut, long rentalID);
+    List<Reservation> findAllByCheckInDateAfterAndCheckOutDateBeforeAndRentalId(Date checkIn, Date checkOut, long rentalID);
+
+    @Transactional
+    List<Reservation> findAllByCheckInDateIsBeforeAndCheckOutDateIsAfterAndRentalId(Date checkIn, Date checkIn2, long rentalID);
 
 }
