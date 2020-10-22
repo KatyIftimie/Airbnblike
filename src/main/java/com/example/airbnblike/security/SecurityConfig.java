@@ -1,7 +1,6 @@
-package com.example.airbnblike.config;
+package com.example.airbnblike.security;
 
-import com.example.airbnblike.security.JwtTokenFilter;
-import com.example.airbnblike.security.JwtTokenServices;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -37,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/login").permitAll()
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger-resources/configuration/ui","/swagger-ui.html").permitAll()
                 .antMatchers("/api/v1/auth/register").permitAll()
                 .antMatchers("/api/v1/images/**").permitAll()
                 .antMatchers("/api/v1/rentals/count-rentals-and-rooms").permitAll()
