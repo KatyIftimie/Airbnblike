@@ -4,6 +4,7 @@ package com.example.airbnblike.reservation.api;
 import com.example.airbnblike.reservation.dto.ReservationDto;
 import com.example.airbnblike.reservation.model.Reservation;
 import com.example.airbnblike.reservation.service.ReservationService;
+import com.example.airbnblike.room.model.Room;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class ReservationApi {
     }
 
     @GetMapping("/bookedRooms")
-    public List<Reservation> getBookedRooms(@RequestBody ReservationDto reservationDto ) {
+    public List<List<Room>> getBookedRooms(@RequestBody ReservationDto reservationDto ) {
         return reservationService.getExistingBookings(reservationDto);
     }
 }

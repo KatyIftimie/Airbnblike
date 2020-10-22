@@ -60,7 +60,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public List<Reservation> getExistingBookings(ReservationDto reservationDto) {
+    public List<List<Room>> getExistingBookings(ReservationDto reservationDto) {
         Date checkIn = reservationDto.getCheckInDate();
         Date checkOut = reservationDto.getCheckOutDate();
         Long id = reservationDto.getRentalID();
@@ -70,6 +70,10 @@ public class ReservationService {
         List<Reservation> newList = Stream.of(list1, list2, list3)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
-        return newList;
+        List<List<Room>> bookedRooms = new ArrayList<>();
+        for (Reservation reservation : newList){
+            bookedRooms.add( reservation.getReservedRooms());
+        }
+        return bookedRooms;
     }
 }
